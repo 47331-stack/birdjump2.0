@@ -209,7 +209,7 @@ const bird = {
 // Tubos
 let pipes = [];
 const pipeWidth = 72;
-let pipeGap = 160;
+let pipeGap = 225;
 let pipeSpeed = 3.6; // Velocidade inicial ligeiramente aumentada
 let spawnTimer = 0;
 
@@ -324,7 +324,7 @@ function drawPipes() {
 function updatePipes() {
     spawnTimer++;
     // Frequência de tubos diminui com a velocidade para manter distância justa
-    const spawnInterval = Math.max(55, Math.floor(100 - (level * 1.8)));
+    const spawnInterval = Math.max(78, Math.floor(128 - (level * 1.2)));
 
     if (spawnTimer > spawnInterval) {
         createPipe();
