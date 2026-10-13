@@ -4,6 +4,19 @@ const ctx = canvas.getContext('2d');
 const uiOverlay = document.getElementById('uiOverlay');
 const startBtn = document.getElementById('startButton');
 const menuSubtitle = document.getElementById('menuSubtitle');
+const bestScoreValue = document.getElementById('bestScoreValue');
+const diamondValue = document.getElementById('diamondValue');
+const shopButton = document.getElementById('shopButton');
+const shopModal = document.getElementById('shopModal');
+const closeShopButton = document.getElementById('closeShopButton');
+const buyButton = document.getElementById('buyButton');
+const shopMessage = document.getElementById('shopMessage');
+
+const birdImage = new Image();
+birdImage.crossOrigin = 'anonymous';
+birdImage.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20184144-Photoroom-klTWBSgRK4E910CWI1YJp38UeaiGSr.png';
+let birdImageReady = false;
+birdImage.addEventListener('load', () => { birdImageReady = true; });
 
 // Ajuste Dinâmico da Tela
 let W = window.innerWidth;
@@ -21,8 +34,11 @@ resizeCanvas();
 // Estados Globais do Jogo
 let gameState = 'START'; // 'START', 'PLAYING', 'GAMEOVER', 'VICTORY'
 let score = 0;
+let bestScore = 0;
+let diamonds = 1000;
+let megaBirdOwned = false;
 let level = 1;
-const maxLevels = 20;
+const maxLevels = 50;
 
 // Partículas e Efeitos Visuais
 let particles = [];
@@ -60,7 +76,7 @@ const bird = {
     y: 0,
     width: 44,
     height: 32,
-    gravity: 0.42,
+    gravity: 0.28,
     lift: -8.8,
     velocity: 0,
     rotation: 0,
@@ -75,6 +91,15 @@ const bird = {
     },
 
     draw() {
+        if (birdImageReady) {
+            ctx.save();
+            ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+            this.rotation = Math.min(Math.PI / 3, Math.max(-Math.PI / 4, this.velocity * 0.07));
+            ctx.rotate(this.rotation);
+            ctx.drawImage(birdImage, -this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.restore();
+            return;
+        }
         ctx.save();
         ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
 
@@ -416,6 +441,8 @@ function gameLoop() {
 }
 
 function gameOver() {
+    bestScore = Math.max(bestScore, score);
+    bestScoreValue.innerText = bestScore;
     gameState = 'GAMEOVER';
     menuSubtitle.innerText = `Você fez ${score} pontos!`;
     startBtn.innerText = 'TENTAR NOVAMENTE';
@@ -451,6 +478,33 @@ function handleJump() {
 startBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     resetGame();
+});
+
+function updateShopDisplay() {
+    diamondValue.innerText = diamonds;
+    buyButton.disabled = megaBirdOwned || diamonds < 999;
+    buyButton.innerText = megaBirdOwned ? 'MEGA BIRD ADQUIRIDO' : 'COMPRAR · 999 DIAMANTES';
+}
+
+shopButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    updateShopDisplay();
+    shopMessage.innerText = '';
+    shopModal.classList.add('is-open');
+    shopModal.setAttribute('aria-hidden', 'false');
+});
+
+closeShopButton.addEventListener('click', () => {
+    shopModal.classList.remove('is-open');
+    shopModal.setAttribute('aria-hidden', 'true');
+});
+
+buyButton.addEventListener('click', () => {
+    if (megaBirdOwned || diamonds < 999) return;
+    diamonds -= 999;
+    megaBirdOwned = true;
+    updateShopDisplay();
+    shopMessage.innerText = 'Mega Bird equipada!';
 });
 
 // Pulo via Espaço
