@@ -32,31 +32,65 @@ html, body {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
-    padding: 18px 24px;
+    gap: 20px;
+    padding: 16px 22px;
     pointer-events: none;
 }
 
 .brand-logo {
-    width: clamp(120px, 13vw, 190px);
+    width: clamp(112px, 11vw, 165px);
     height: auto;
     object-fit: contain;
 }
 
 .currency-panel {
+    position: absolute;
+    top: 92px;
+    right: 22px;
     display: flex;
-    align-items: center;
-    gap: 4px;
+    align-items: stretch;
+    gap: 10px;
     color: #fff;
-    font-size: clamp(18px, 2vw, 28px);
     text-shadow: 2px 2px #000;
 }
 
-.currency-panel img {
-    width: clamp(74px, 8vw, 120px);
-    height: auto;
-    object-fit: contain;
-    margin-left: 8px;
+.stat-card {
+    position: relative;
+    width: clamp(142px, 13vw, 205px);
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.stat-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    margin: 0;
+}
+
+.stat-card strong {
+    position: relative;
+    z-index: 1;
+    min-width: 72px;
+    margin: 0 25px 0 58px;
+    color: #fff;
+    font-size: clamp(20px, 2vw, 30px);
+    line-height: 1;
+    text-align: center;
+}
+
+.stat-card span {
+    position: absolute;
+    z-index: 2;
+    bottom: -17px;
+    right: 10px;
+    color: #fff;
+    font-size: 10px;
+    letter-spacing: 1px;
 }
 
 .shop-button { pointer-events: auto; }

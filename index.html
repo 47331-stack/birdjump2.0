@@ -20,11 +20,17 @@
     <!-- Logo e HUD da tela inicial -->
     <header class="top-bar" aria-label="Informações do jogador">
         <img class="brand-logo" src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20171504-Photoroom-FfrmCnjpoT179Ciee5JK4D8B2zLUh1.png" alt="BirdJump" />
-        <div class="currency-panel">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20183609-Photoroom-cLHRHWqFsWL3lxVgnDkdxwpAvkCB43.png" alt="Recorde de estrelas" />
-            <strong id="bestScoreValue">0</strong>
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20183602-Photoroom-NuyFpYYfvtQHz5aWydSUjflyfvQ5CE.png" alt="Diamantes" />
-            <strong id="diamondValue">1000</strong>
+        <div class="currency-panel" aria-label="Progresso do jogador">
+            <div class="stat-card">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20183609-Photoroom-cLHRHWqFsWL3lxVgnDkdxwpAvkCB43.png" alt="Estrelas" />
+                <strong id="bestScoreValue">0</strong>
+                <span>RECORDE</span>
+            </div>
+            <div class="stat-card">
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20183602-Photoroom-NuyFpYYfvtQHz5aWydSUjflyfvQ5CE.png" alt="Diamantes" />
+                <strong id="diamondValue">1000</strong>
+                <span>DIAMANTES</span>
+            </div>
         </div>
         <button id="shopButton" class="image-button shop-button" type="button" aria-label="Abrir loja">
             <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20183545-Photoroom-qmzLug0PP0gJT2aCQ0e5SLngjpz2rA.png" alt="Loja" />
