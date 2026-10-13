@@ -219,7 +219,8 @@ let pipes = [];
 const pipeWidth = 72;
 let pipeGap = 285;
 let pipeSpeed = 3.6; // Velocidade inicial ligeiramente aumentada
-let spawnTimer = 0;
+    const getActiveGameSpeed = () => pipeSpeed * (megaBirdEquipped ? 1.5 : 1);
+    let spawnTimer = 0;
 
 function createPipe() {
     const groundHeight = 70;
@@ -259,7 +260,7 @@ function drawBackground() {
     }
 
     // 3. Silhuetas de Monumentos/Cidades ao Fundo (Parallax Leve)
-    cityOffset = (cityOffset + (gameState === 'PLAYING' ? pipeSpeed * 0.2 : 0.5)) % 400;
+    cityOffset = (cityOffset + (gameState === 'PLAYING' ? getActiveGameSpeed() * 0.2 : 0.5)) % 400;
     ctx.fillStyle = '#81ecec';
 
     for (let x = -cityOffset; x < W + 400; x += 350) {
@@ -340,7 +341,7 @@ function updatePipes() {
     }
 
     pipes.forEach((pipe, index) => {
-        pipe.x -= pipeSpeed;
+        pipe.x -= getActiveGameSpeed();
 
         // Teste de Colisão
         const birdRight = bird.x + bird.width;
