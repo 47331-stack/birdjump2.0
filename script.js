@@ -10,13 +10,20 @@ const shopButton = document.getElementById('shopButton');
 const shopModal = document.getElementById('shopModal');
 const closeShopButton = document.getElementById('closeShopButton');
 const buyButton = document.getElementById('buyButton');
+const equipButton = document.getElementById('equipButton');
 const shopMessage = document.getElementById('shopMessage');
 
 const birdImage = new Image();
 birdImage.crossOrigin = 'anonymous';
 birdImage.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20184144-Photoroom-klTWBSgRK4E910CWI1YJp38UeaiGSr.png';
+const megaBirdImage = new Image();
+megaBirdImage.crossOrigin = 'anonymous';
+megaBirdImage.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/P%C3%A1ssaro%20Lend%C3%A1rio%20Dourado%20El%C3%A9trico-Photoroom-zYpRnNBC1UBpM0UnpjhLPBcNYZcpCD.png';
 let birdImageReady = false;
+let megaBirdImageReady = false;
 birdImage.addEventListener('load', () => { birdImageReady = true; });
+megaBirdImage.addEventListener('load', () => { megaBirdImageReady = true; });
+let megaBirdEquipped = false;
 
 // Ajuste Dinâmico da Tela
 let W = window.innerWidth;
@@ -91,12 +98,13 @@ const bird = {
     },
 
     draw() {
-        if (birdImageReady) {
+        if (birdImageReady || (megaBirdEquipped && megaBirdImageReady)) {
+            const activeBirdImage = megaBirdEquipped ? megaBirdImage : birdImage;
             ctx.save();
             ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
             this.rotation = Math.min(Math.PI / 3, Math.max(-Math.PI / 4, this.velocity * 0.07));
             ctx.rotate(this.rotation);
-            ctx.drawImage(birdImage, -this.width / 2, -this.height / 2, this.width, this.height);
+            ctx.drawImage(activeBirdImage, -this.width / 2, -this.height / 2, this.width, this.height);
             ctx.restore();
             return;
         }
@@ -209,7 +217,7 @@ const bird = {
 // Tubos
 let pipes = [];
 const pipeWidth = 72;
-let pipeGap = 225;
+let pipeGap = 285;
 let pipeSpeed = 3.6; // Velocidade inicial ligeiramente aumentada
 let spawnTimer = 0;
 
@@ -253,7 +261,7 @@ function drawBackground() {
     // 3. Silhuetas de Monumentos/Cidades ao Fundo (Parallax Leve)
     cityOffset = (cityOffset + (gameState === 'PLAYING' ? pipeSpeed * 0.2 : 0.5)) % 400;
     ctx.fillStyle = '#81ecec';
-    
+
     for (let x = -cityOffset; x < W + 400; x += 350) {
         // Silhueta Torre/Prédios
         ctx.fillRect(x + 20, H - 220, 35, 150);
@@ -324,7 +332,7 @@ function drawPipes() {
 function updatePipes() {
     spawnTimer++;
     // Frequência de tubos diminui com a velocidade para manter distância justa
-    const spawnInterval = Math.max(78, Math.floor(128 - (level * 1.2)));
+    const spawnInterval = Math.max(105, Math.floor(165 - (level * 0.9)));
 
     if (spawnTimer > spawnInterval) {
         createPipe();
@@ -484,6 +492,8 @@ function updateShopDisplay() {
     diamondValue.innerText = diamonds;
     buyButton.disabled = megaBirdOwned || diamonds < 999;
     buyButton.innerText = megaBirdOwned ? 'MEGA BIRD ADQUIRIDO' : 'COMPRAR · 999 DIAMANTES';
+    equipButton.disabled = !megaBirdOwned;
+    equipButton.innerText = megaBirdEquipped ? 'MEGA BIRD EQUIPADA' : 'EQUIPAR MEGA BIRD';
 }
 
 shopButton.addEventListener('click', (e) => {
@@ -504,7 +514,14 @@ buyButton.addEventListener('click', () => {
     diamonds -= 999;
     megaBirdOwned = true;
     updateShopDisplay();
-    shopMessage.innerText = 'Mega Bird equipada!';
+    shopMessage.innerText = 'Mega Bird comprada. Agora você pode equipá-la.';
+});
+
+equipButton.addEventListener('click', () => {
+    if (!megaBirdOwned) return;
+    megaBirdEquipped = !megaBirdEquipped;
+    updateShopDisplay();
+    shopMessage.innerText = megaBirdEquipped ? 'Mega Bird equipada!' : 'Bird comum equipado.';
 });
 
 // Pulo via Espaço
