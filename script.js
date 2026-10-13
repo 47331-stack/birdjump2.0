@@ -14,7 +14,7 @@ const shopMessage = document.getElementById('shopMessage');
 
 const birdImage = new Image();
 birdImage.crossOrigin = 'anonymous';
-birdImage.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/P%C3%A1ssaro%20Lend%C3%A1rio%20Dourado%20El%C3%A9trico-Photoroom-zYpRnNBC1UBpM0UnpjhLPBcNYZcpCD.png';
+birdImage.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Captura%20de%20tela%202026-10-13%20184144-Photoroom-klTWBSgRK4E910CWI1YJp38UeaiGSr.png';
 let birdImageReady = false;
 birdImage.addEventListener('load', () => { birdImageReady = true; });
 
